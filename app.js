@@ -70,6 +70,37 @@ app.post('/shifts', (req, res) => {
   });
 });
 
+// update shifts
+
+app.put('/shifts/:name', (req, res) => {
+  const shiftName = req.params.name;
+  const { shift_name, start_time, end_time } = req.body;
+
+  if (!shift_name && !start_time && !end_time) {
+    return res.status(400).json({ error: 'Please provide at least one field to update (shift_name, start_time, or end_time)' });
+  }
+  let query = 'UPDATE Shifts SET ';
+  const updates = [];
+  if (shift_name) updates.push(`shift_name = '${shift_name}'`);
+  if (start_time) updates.push(`start_time = '${start_time}'`);
+  if (end_time) updates.push(`end_time = '${end_time}'`);
+  query += updates.join(', ');
+  query += ' WHERE shift_name = ?';
+
+  connection.query(query, [shiftName], (err, results) => {
+    if (err) {
+      console.error('Error executing query:', err.message);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ error: `No shift found with name "${shiftName}"` });
+    }
+
+    res.status(200).json({ message: `Shift "${shiftName}" updated successfully` });
+  });
+});
+
 // deleteing shift
 
 app.delete('/shifts/:name', (req, res) => {
