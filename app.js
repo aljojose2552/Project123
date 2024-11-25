@@ -24,7 +24,7 @@ connection.connect((err) => {
 app.use(bodyParser.json());
 
 
-
+//fetch all shifts
 
 app.get('/', (req, res) => {
   res.json({ info: 'Shift Management API is running.' });
@@ -43,6 +43,7 @@ app.get('/shifts', (req, res) => {
   });
 });
 
+//creating new shifts
 
 app.post('/shifts', (req, res) => {
   const { shift_name, start_time, end_time } = req.body;
@@ -69,6 +70,25 @@ app.post('/shifts', (req, res) => {
   });
 });
 
+// deleteing shift
+
+app.delete('/shifts/:name', (req, res) => {
+  const shiftName = req.params.name;
+
+  const query = 'DELETE FROM Shifts WHERE shift_name = ?';
+  connection.query(query, [shiftName], (err, results) => {
+    if (err) {
+      console.error('Error executing query:', err.message);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ error: `No shift found with name "${shiftName}"` });
+    }
+
+    res.status(200).json({ message: `Shift "${shiftName}" deleted successfully` });
+  });
+});
 
 const PORT = 3000;
 app.listen(PORT, () => {
