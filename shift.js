@@ -67,3 +67,32 @@ async function fetchShifts() {
           console.error("Error saving shift:", error);
         }
       });
+
+
+  // deleting  shift
+  document.getElementById("deleteForm").addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const shiftName = document.getElementById("deleteShiftName").value;
+
+    try {
+      const response = await fetch(`${apiBaseUrl}/${shiftName}`, {
+        method: "DELETE"
+      });
+
+      if (response.ok) {
+        alert(`Shift "${shiftName}" deleted successfully!`);
+      } else {
+        const errorData = await response.json();
+        alert(errorData.error || "Error deleting shift");
+      }
+
+      document.getElementById("deleteForm").reset();
+      fetchShifts(); 
+    } catch (error) {
+      console.error("Error deleting shift:", error);
+    }
+  });
+
+ 
+  fetchShifts();
