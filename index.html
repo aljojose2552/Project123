@@ -4,57 +4,48 @@
     
         <script src=""></script>
     </head>
-    <body
-        
-    <div class="container">
-        <h1>Employee Shift Assignment System</h1>
-
-        <div class="grid">
-            <!-- Create Section -->
-            <div class="card">
-                <h3>Create Operations</h3>
-                <ul>
-                    <li><a href="#addShift">Add New Shift</a></li>
-                    <li><a href="#assignShift">Assign Employee to Shift</a></li>
-                    <li><a href="#createTemplate">Create Shift Template</a></li>
-                    <li><a href="#addAvailability">Add Employee Availability</a></li>
-                </ul>
-            </div>
-
-            <!-- Read Section -->
-            <div class="card">
-                <h3>Read Operations</h3>
-                <ul>
-                    <li><a href="#viewSchedule">View Shift Schedule</a></li>
-                    <li><a href="#viewEmployeeShifts">Employee Shift List</a></li>
-                    <li><a href="#viewShiftDetails">Shift Details</a></li>
-                    <li><a href="#viewAvailability">View Employee Availability</a></li>
-                </ul>
-            </div>
-
-            <!-- Update Section -->
-            <div class="card">
-                <h3>Update Operations</h3>
-                <ul>
-                    <li><a href="#editShift">Edit Shift Details</a></li>
-                    <li><a href="#reassignShift">Reassign Employee</a></li>
-                    <li><a href="#updateAvailability">Update Employee Availability</a></li>
-                    <li><a href="#swapShifts">Swap Shifts</a></li>
-                </ul>
-            </div>
-
-            <!-- Delete Section -->
-            <div class="card">
-                <h3>Delete Operations</h3>
-                <ul>
-                    <li><a href="#deleteShift">Delete Shift</a></li>
-                    <li><a href="#removeAssignment">Remove Employee Assignment</a></li>
-                    <li><a href="#deleteTemplate">Delete Shift Template</a></li>
-                    <li><a href="#clearAvailability">Clear Employee Availability</a></li>
-                </ul>
+    <body>
+        <div class="container">
+            <h1>Backend Shift Management API</h1>
+    
+            <div class="grid">
+                <!-- Create Section -->
+                <div class="card">
+                    <h3>Create Operations</h3>
+                    <ul>
+                        <li><a href="/shifts" target="_blank">POST: Add New Shift</a></li>
+                        
+                    </ul>
+                </div>
+    
+                <!-- Read Section -->
+                <div class="card">
+                    <h3>Read Operations</h3>
+                    <ul>
+                        <li><a href="/shifts" target="_blank">GET: View All Shifts</a></li>
+                        
+                    </ul>
+                </div>
+    
+                <!-- Update Section -->
+                <div class="card">
+                    <h3>Update Operations</h3>
+                    <ul>
+                        <li><a href="/shifts/:name" target="_blank">PUT: Edit Shift Details</a></li>
+                        
+                    </ul>
+                </div>
+    
+                <!-- Delete Section -->
+                <div class="card">
+                    <h3>Delete Operations</h3>
+                    <ul>
+                        <li><a href="/shifts/:name" target="_blank">DELETE: Delete Shift</a></li>
+                        
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
-
-</body>
-</html>
+    </body>
+    </html>
+    
