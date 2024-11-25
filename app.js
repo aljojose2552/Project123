@@ -121,6 +121,27 @@ app.delete('/shifts/:name', (req, res) => {
   });
 });
 
+//employees
+
+app.get('/employees/:id', (req, res) => {
+  const employeeId = req.params.id;
+
+  const query = 'SELECT * FROM Employees WHERE id = ?';
+  connection.query(query, [employeeId], (err, results) => {
+    if (err) {
+      console.error('Error executing query:', err.message);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ error: `No employee found with ID ${employeeId}` });
+    }
+
+    res.status(200).json(results[0]);
+  });
+});
+
+
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
