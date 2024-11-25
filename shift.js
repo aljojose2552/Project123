@@ -31,3 +31,39 @@ async function fetchShifts() {
     document.getElementById("startTime").value = startTime;
     document.getElementById("endTime").value = endTime;
   }
+
+    // adding or updating shift
+    document.getElementById("shiftForm").addEventListener("submit", async (event) => {
+        event.preventDefault();
+    
+        const shiftName = document.getElementById("shiftName").value;
+        const startTime = document.getElementById("startTime").value;
+        const endTime = document.getElementById("endTime").value;
+    
+        try {
+          const response = await fetch(`${apiBaseUrl}/${shiftName}`, {
+            method: "PUT", // PUT for update
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ shift_name: shiftName, start_time: startTime, end_time: endTime })
+          });
+    
+          if (!response.ok && response.status === 404) {
+            // shift dnot exist, create new 
+            await fetch(apiBaseUrl, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({ shift_name: shiftName, start_time: startTime, end_time: endTime })
+            });
+          }
+          
+          alert("Shift saved successfully!");
+          document.getElementById("shiftForm").reset();
+          fetchShifts(); 
+        } catch (error) {
+          console.error("Error saving shift:", error);
+        }
+      });
