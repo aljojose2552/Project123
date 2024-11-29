@@ -167,7 +167,10 @@ app.post('/employees', (req, res) => {
 
 //put employee
 
+app.put('/employees/:id', (req, res) => {
+  const employeeid = req.params.id;
 
+})
 
 
 
