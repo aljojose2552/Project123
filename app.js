@@ -141,6 +141,45 @@ app.get('/employees/:id', (req, res) => {
   });
 });
 
+//post employee
+
+app.post('/employees', (req, res) => {
+  const { name, email, position, phone } = req.body;
+
+  if (!name || !email || !position || !phone) {
+    return res.status(400).json({ error: 'Please provide name, email, position, and phone' });
+  }
+
+  const query = 'INSERT INTO Employees (name, email, position, phone) VALUES (?, ?, ?, ?)';
+
+  connection.query(query, [name, email, position, phone], (err, results) => {
+    if (err) {
+      console.error('Error executing query:', err.message);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+
+    res.status(201).json({
+      message: 'Employee created successfully',
+      employee_id: results.insertId
+    });
+  });
+});
+
+//put employee
+
+
+
+
+
+
+
+//delete employee
+
+
+
+
+
+
 
 const PORT = 3000;
 app.listen(PORT, () => {
