@@ -206,11 +206,30 @@ app.put('/employees/:id', (req, res) => {
 
 
 
-
-
-
 //delete employee
 
+
+app.delete('/employees/:id', (req, res) => {
+  const employeeId = req.params.id; 
+
+
+  const query = 'DELETE FROM Employees WHERE id = ?';
+
+  connection.query(query, [employeeId], (err, results) => {
+    if (err) {
+      console.error('Error executing query:', err.message);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+
+   
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ error: `No employee found with ID ${employeeId}` });
+    }
+
+    
+    res.status(200).json({ message: `Employee with ID ${employeeId} deleted successfully` });
+  });
+});
 
 
 
