@@ -5,47 +5,46 @@
         <script src=""></script>
     </head>
     <body>
-        <div class="container">
-            <h1>Backend Shift Management API</h1>
-    
-            <div class="grid">
-                <!-- Create Section -->
-                <div class="card">
-                    <h3>Create Operations</h3>
-                    <ul>
-                        <li><a href="/shifts" target="_blank">POST: Add New Shift</a></li>
-                        
-                    </ul>
-                </div>
-    
-                <!-- Read Section -->
-                <div class="card">
-                    <h3>Read Operations</h3>
-                    <ul>
-                        <li><a href="/shifts" target="_blank">GET: View All Shifts</a></li>
-                        
-                    </ul>
-                </div>
-    
-                <!-- Update Section -->
-                <div class="card">
-                    <h3>Update Operations</h3>
-                    <ul>
-                        <li><a href="/shifts/:name" target="_blank">PUT: Edit Shift Details</a></li>
-                        
-                    </ul>
-                </div>
-    
-                <!-- Delete Section -->
-                <div class="card">
-                    <h3>Delete Operations</h3>
-                    <ul>
-                        <li><a href="/shifts/:name" target="_blank">DELETE: Delete Shift</a></li>
-                        
-                    </ul>
-                </div>
-            </div>
-        </div>
+       
+  <h1>Shift Management</h1>
+
+  
+  <div class="form-container">
+    <h2>Create a Shift</h2>
+    <input type="text" id="shift_name" placeholder="Shift Name">
+    <input type="time" id="start_time" placeholder="Start Time">
+    <input type="time" id="end_time" placeholder="End Time">
+    <button onclick="createShift()">Create Shift</button>
+  </div>
+
+  <div class="form-container">
+    <h2>Update a Shift</h2>
+    <input type="text" id="update_shift_name" placeholder="Shift Name to Update">
+    <input type="text" id="new_shift_name" placeholder="New Shift Name">
+    <input type="time" id="new_start_time" placeholder="New Start Time">
+    <input type="time" id="new_end_time" placeholder="New End Time">
+    <button onclick="updateShift()">Update Shift</button>
+  </div>
+
+  <div class="form-container">
+    <h2>Delete a Shift</h2>
+    <input type="text" id="delete_shift_name" placeholder="Shift Name to Delete">
+    <button onclick="deleteShift()">Delete Shift</button>
+  </div>
+
+  <div class="form-container">
+    <h2>Search Shifts</h2>
+    <input type="text" id="search_shift_name" placeholder="Search by Shift Name">
+    <input type="time" id="search_start_time" placeholder="Start Time">
+    <input type="time" id="search_end_time" placeholder="End Time">
+    <button onclick="searchShifts()">Search</button>
+  </div>
+
+  <div class="shift-container">
+    <h2>Shifts List</h2>
+    <div id="shifts-list"></div>
+  </div>
+
     </body>
     </html>
     
