@@ -43,6 +43,51 @@ app.get('/shifts', (req, res) => {
   });
 });
 
+// Search shifts
+app.get('/shifts/search', (req, res) => {
+  const { shift_name, start_time, end_time } = req.query;
+
+ 
+  console.log('Query Params:', { shift_name, start_time, end_time });
+
+
+  let query = 'SELECT * FROM Shifts WHERE 1=1';
+  const params = [];
+
+  if (shift_name) {
+    query += ' AND shift_name LIKE ?';
+    params.push(`%${shift_name}%`); 
+  }
+  if (start_time) {
+    query += ' AND start_time = ?';
+    params.push(start_time);
+  }
+  if (end_time) {
+    query += ' AND end_time = ?';
+    params.push(end_time);
+  }
+
+  
+  console.log('SQL Query:', query);
+  console.log('Query Params:', params);
+
+ 
+  connection.query(query, params, (err, results) => {
+    if (err) {
+      console.error('Error executing query:', err.message);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+
+    
+    if (results.length === 0) {
+      return res.status(404).json({ message: 'No shifts found matching the criteria.' });
+    }
+
+   
+    res.status(200).json(results);
+  });
+});
+
 //creating new shifts
 
 app.post('/shifts', (req, res) => {
