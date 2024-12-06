@@ -1,50 +1,60 @@
-<html>
-    <head>
-        <link rel="stylesheet" href="style.css">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shift Management</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Shift Management System</h1>
     
-        <script src="shift.js"></script>
-    </head>
-    <body>
-       
-  <h1>Shift Management</h1>
-
-  
-  <div class="form-container">
-    <h2>Create a Shift</h2>
-    <input type="text" id="shift_name" placeholder="Shift Name">
-    <input type="time" id="start_time" placeholder="Start Time">
-    <input type="time" id="end_time" placeholder="End Time">
-    <button onclick="createShift()">Create Shift</button>
-  </div>
-
-  <div class="form-container">
-    <h2>Update a Shift</h2>
-    <input type="text" id="update_shift_name" placeholder="Shift Name to Update">
-    <input type="text" id="new_shift_name" placeholder="New Shift Name">
-    <input type="time" id="new_start_time" placeholder="New Start Time">
-    <input type="time" id="new_end_time" placeholder="New End Time">
-    <button onclick="updateShift()">Update Shift</button>
-  </div>
-
-  <div class="form-container">
-    <h2>Delete a Shift</h2>
-    <input type="text" id="delete_shift_name" placeholder="Shift Name to Delete">
-    <button onclick="deleteShift()">Delete Shift</button>
-  </div>
-
-  <div class="form-container">
-    <h2>Search Shifts</h2>
-    <input type="text" id="search_shift_name" placeholder="Search by Shift Name">
-    <input type="time" id="search_start_time" placeholder="Start Time">
-    <input type="time" id="search_end_time" placeholder="End Time">
-    <button onclick="searchShifts()">Search</button>
-  </div>
-
-  <div class="shift-container">
-    <h2>Shifts List</h2>
-    <div id="shifts-list"></div>
-  </div>
-
-    </body>
-    </html>
+    <div id="response" class="response"></div>
     
+    <!-- Fetch Shifts -->
+    <section>
+      <h2>All Shifts</h2>
+      <button id="fetchShifts">Fetch All Shifts</button>
+      <div id="shifts-list"></div>
+    </section>
+
+    <!-- Create New Shift -->
+    <section>
+      <h2>Create New Shift</h2>
+      <input type="text" id="shift_name" placeholder="Shift Name">
+      <input type="time" id="start_time" placeholder="Start Time">
+      <input type="time" id="end_time" placeholder="End Time">
+      <button id="createShift">Create Shift</button>
+    </section>
+
+    <!-- Update Shift -->
+    <section>
+      <h2>Update Shift</h2>
+      <input type="text" id="update_shift_name" placeholder="Existing Shift Name">
+      <input type="text" id="new_shift_name" placeholder="New Shift Name">
+      <input type="time" id="new_start_time" placeholder="New Start Time">
+      <input type="time" id="new_end_time" placeholder="New End Time">
+      <button id="updateShift">Update Shift</button>
+    </section>
+
+    <!-- Delete Shift -->
+    <section>
+      <h2>Delete Shift</h2>
+      <input type="text" id="delete_shift_name" placeholder="Shift Name to Delete">
+      <button id="deleteShift">Delete Shift</button>
+    </section>
+
+    <!-- Search Shifts -->
+    <section>
+      <h2>Search Shifts</h2>
+      <input type="text" id="search_shift_name" placeholder="Search by Shift Name">
+      <input type="time" id="search_start_time" placeholder="Search by Start Time">
+      <input type="time" id="search_end_time" placeholder="Search by End Time">
+      <button id="searchShifts">Search</button>
+    </section>
+  </div>
+
+  <script src="shift.js"></script>
+</body>
+</html>
