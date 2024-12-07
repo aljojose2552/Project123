@@ -2,41 +2,76 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
-}
-
-.container {
-    width: 90%;
-    margin: 20px auto;
-}
-
-h1 {
+    background-color: #f4f4f9;
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
     text-align: center;
     color: #333;
-}
-
-.grid {
+  }
+  
+  section {
+    margin: 20px 0;
+  }
+  
+  input[type="text"], input[type="time"] {
+    width: 100%;
+    padding: 8px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  button {
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  #shifts-list {
+    margin-top: 20px;
+  }
+  
+  .shift-item {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.card {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    flex: 1;
-    min-width: 200px;
-    padding: 20px;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .response {
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
     text-align: center;
-}
-
-a {
-    text-decoration: none;
-    color: #3498db;
-    font-size: 18px;
-}
-
-a:hover {
-    text-decoration: underline;
-}
+  }
+  
+  .error {
+    background-color: #ffcccc;
+    color: #d9534f;
+  }
+  
+  .success {
+    background-color: #dff0d8;
+    color: #3c763d;
+  }
+  

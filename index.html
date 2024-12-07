@@ -4,12 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shift Management System</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
     <h1>Shift Management System</h1>
 
+    <!-- Response Message -->
     <div id="response" class="response"></div>
 
     <!-- Fetch Shifts -->
@@ -17,6 +18,14 @@
       <h2>All Shifts</h2>
       <button id="fetchShifts">Fetch All Shifts</button>
       <div id="shifts-list"></div>
+    </section>
+
+     <!-- Search Shifts -->
+     <section>
+      <h2>Search Shifts</h2>
+      <input type="text" id="search_shift_name" placeholder="Search by Shift Name">
+    
+      <button id="searchShifts">Search</button>
     </section>
 
     <!-- Create New Shift -->
@@ -45,14 +54,7 @@
       <button id="deleteShift">Delete Shift</button>
     </section>
 
-    <!-- Search Shifts -->
-    <section>
-      <h2>Search Shifts</h2>
-      <input type="text" id="search_shift_name" placeholder="Search by Shift Name">
-      <input type="time" id="search_start_time">
-      <input type="time" id="search_end_time">
-      <button id="searchShifts">Search</button>
-    </section>
+   
   </div>
 
   <script src="shift.js"></script>

@@ -1,147 +1,130 @@
-const apiBaseUrl = 'http://localhost:3000';
+const API_URL = 'http://localhost:3000'; // Backend URL
 
-// Fetch and display shifts dynamically
-function fetchShifts() {
-  fetch(`${apiBaseUrl}/shifts`)
-    .then(response => response.json())
-    .then(data => {
+// Utility function to display response messages
+const showMessage = (message, isError = false) => {
+  const responseDiv = document.getElementById('response');
+  responseDiv.textContent = message;
+  responseDiv.style.color = isError ? 'red' : 'green';
+  setTimeout(() => (responseDiv.textContent = ''), 5000);
+};
+
+// Fetch all shifts
+document.getElementById('fetchShifts').addEventListener('click', async () => {
+  try {
+    const response = await fetch(`${API_URL}/shifts`);
+    const data = await response.json();
+
+    if (response.ok) {
       const shiftsList = document.getElementById('shifts-list');
-      shiftsList.innerHTML = ''; // Clear the list before adding new shifts
+      shiftsList.innerHTML = data
+        .map((shift) => `<p>${shift.shift_name} - ${shift.start_time} to ${shift.end_time}</p>`)
+        .join('');
+    } else {
+      showMessage(data.error || 'Failed to fetch shifts', true);
+    }
+  } catch (error) {
+    console.error('Error fetching shifts:', error);
+    showMessage('Error fetching shifts', true);
+  }
+});
 
-      if (data.length === 0) {
-        shiftsList.innerHTML = '<p>No shifts available</p>';
-      }
+// Search shifts
+document.getElementById('searchShifts').addEventListener('click', async () => {
+  const shiftName = document.getElementById('search_shift_name').value;
 
-      data.forEach(shift => {
-        const div = document.createElement('div');
-        div.className = 'shift-item';
-        div.dataset.shiftId = shift.shift_id; // Store shift_id in a data attribute
-        div.innerHTML = `
-          <strong>${shift.shift_name}</strong> 
-          (From ${shift.start_time} to ${shift.end_time}) 
-          <button onclick="deleteShift(${shift.shift_id}, '${shift.shift_name}')">Delete</button>
-          <button onclick="editShift(${shift.shift_id})">Edit</button>
-        `;
-        shiftsList.appendChild(div);
-      });
-    })
-    .catch(error => console.error('Error fetching shifts:', error));
-}
+  try {
+    const response = await fetch(`${API_URL}/shifts/search?shift_name=${shiftName}`);
+    const data = await response.json();
+
+    if (response.ok) {
+      const shiftsList = document.getElementById('shifts-list');
+      shiftsList.innerHTML = data
+        .map((shift) => `<p>${shift.shift_name} - ${shift.start_time} to ${shift.end_time}</p>`)
+        .join('');
+    } else {
+      showMessage(data.message || 'No shifts found', true);
+    }
+  } catch (error) {
+    console.error('Error searching shifts:', error);
+    showMessage('Error searching shifts', true);
+  }
+});
 
 // Create a new shift
-document.getElementById('create-shift-form').addEventListener('submit', function(event) {
-  event.preventDefault();
-
-  const shiftName = document.getElementById('shift_name').value.trim();
+document.getElementById('createShift').addEventListener('click', async () => {
+  const shiftName = document.getElementById('shift_name').value;
   const startTime = document.getElementById('start_time').value;
   const endTime = document.getElementById('end_time').value;
 
-  const shiftData = { shift_name: shiftName, start_time: startTime, end_time: endTime };
+  try {
+    const response = await fetch(`${API_URL}/shifts`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ shift_name: shiftName, start_time: startTime, end_time: endTime }),
+    });
 
-  fetch(`${apiBaseUrl}/shifts`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(shiftData),
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Shift created:', data);
+    const data = await response.json();
 
-      // Dynamically add new shift to the DOM
-      const shiftsList = document.getElementById('shifts-list');
-      const div = document.createElement('div');
-      div.className = 'shift-item';
-      div.dataset.shiftId = data.shift_id; // Store shift_id in a data attribute
-      div.innerHTML = `
-        <strong>${shiftName}</strong>
-        (From ${startTime} to ${endTime}) 
-        <button onclick="deleteShift(${data.shift_id}, '${shiftName}')">Delete</button>
-        <button onclick="editShift(${data.shift_id})">Edit</button>
-      `;
-      shiftsList.appendChild(div);
-    })
-    .catch(error => console.error('Error creating shift:', error));
-});
-
-// Search for shifts by name and update DOM
-document.getElementById('search-shift-form').addEventListener('submit', function(event) {
-  event.preventDefault();
-
-  const shiftName = document.getElementById('shift_name_search').value.trim();
-
-  if (!shiftName) {
-    alert('Please enter a shift name to search.');
-    return;
-  }
-
-  fetch(`${apiBaseUrl}/shifts/search?shift_name=${shiftName}`)
-    .then(response => response.json())
-    .then(data => {
-      const shiftsList = document.getElementById('shifts-list');
-      shiftsList.innerHTML = ''; // Clear the existing list
-
-      if (data.length === 0) {
-        shiftsList.innerHTML = '<p>No shifts found matching the name</p>';
-      } else {
-        data.forEach(shift => {
-          const div = document.createElement('div');
-          div.className = 'shift-item';
-          div.dataset.shiftId = shift.shift_id;
-          div.innerHTML = `
-            <strong>${shift.shift_name}</strong>
-            (From ${shift.start_time} to ${shift.end_time}) 
-            <button onclick="deleteShift(${shift.shift_id}, '${shift.shift_name}')">Delete</button>
-            <button onclick="editShift(${shift.shift_id})">Edit</button>
-          `;
-          shiftsList.appendChild(div);
-        });
-      }
-    })
-    .catch(error => console.error('Error searching shifts:', error));
-});
-
-// Delete a shift dynamically
-function deleteShift(shiftId, shiftName) {
-  fetch(`${apiBaseUrl}/shifts/${shiftName}`, {
-    method: 'DELETE',
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Shift deleted:', data);
-
-      // Remove the shift from the DOM
-      const shiftElement = document.querySelector(`[data-shift-id='${shiftId}']`);
-      if (shiftElement) {
-        shiftElement.remove();
-      }
-    })
-    .catch(error => console.error('Error deleting shift:', error));
-}
-
-// Edit a shift (Optional: Example of editing)
-function editShift(shiftId) {
-  const shiftElement = document.querySelector(`[data-shift-id='${shiftId}']`);
-  if (shiftElement) {
-    const shiftName = shiftElement.querySelector('strong').textContent;
-
-    // Simulate the edit form
-    const newShiftName = prompt('Enter new shift name:', shiftName);
-    if (newShiftName) {
-      // Call backend API to update the shift
-      fetch(`${apiBaseUrl}/shifts/${shiftName}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ shift_name: newShiftName }),
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log('Shift updated:', data);
-          shiftElement.querySelector('strong').textContent = newShiftName;
-        })
-        .catch(error => console.error('Error editing shift:', error));
+    if (response.ok) {
+      showMessage('Shift created successfully');
+    } else {
+      showMessage(data.error || 'Failed to create shift', true);
     }
+  } catch (error) {
+    console.error('Error creating shift:', error);
+    showMessage('Error creating shift', true);
   }
-}
+});
 
-// Initialize the app by fetching shifts and employees
-fetchShifts();
+// Update a shift
+document.getElementById('updateShift').addEventListener('click', async () => {
+  const currentShiftName = document.getElementById('update_shift_name').value;
+  const newShiftName = document.getElementById('new_shift_name').value;
+  const newStartTime = document.getElementById('new_start_time').value;
+  const newEndTime = document.getElementById('new_end_time').value;
+
+  try {
+    const response = await fetch(`${API_URL}/shifts/${currentShiftName}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        shift_name: newShiftName,
+        start_time: newStartTime,
+        end_time: newEndTime,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      showMessage(`Shift "${currentShiftName}" updated successfully`);
+    } else {
+      showMessage(data.error || `Failed to update shift "${currentShiftName}"`, true);
+    }
+  } catch (error) {
+    console.error('Error updating shift:', error);
+    showMessage('Error updating shift', true);
+  }
+});
+
+// Delete a shift
+document.getElementById('deleteShift').addEventListener('click', async () => {
+  const shiftName = document.getElementById('delete_shift_name').value;
+
+  try {
+    const response = await fetch(`${API_URL}/shifts/${shiftName}`, {
+      method: 'DELETE',
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      showMessage(`Shift "${shiftName}" deleted successfully`);
+    } else {
+      showMessage(data.error || `Failed to delete shift "${shiftName}"`, true);
+    }
+  } catch (error) {
+    console.error('Error deleting shift:', error);
+    showMessage('Error deleting shift', true);
+  }
+});
