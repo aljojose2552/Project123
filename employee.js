@@ -1,118 +1,100 @@
-const apiBaseUrl = 'http://localhost:3000/employees';
+const EMPLOYEE_API_URL = 'http://localhost:3000'; // Base API URL for employees
 
-   
-    async function fetchEmployees() {
-      try {
-        const response = await fetch(apiBaseUrl);
-        const employees = await response.json();
+// Fetch All Employees
+document.getElementById('fetchEmployees').addEventListener('click', async () => {
+  try {
+    const response = await fetch(`${EMPLOYEE_API_URL}/employees`);
+    const employees = await response.json();
+    displayEmployees(employees);
+  } catch (error) {
+    console.error('Error fetching employees:', error);
+    document.getElementById('employee-list').innerHTML = 'Error fetching employees.';
+  }
+});
 
-        const tableBody = document.querySelector('#employee-table tbody');
-        tableBody.innerHTML = ''; 
+// Display Employees
+function displayEmployees(employees) {
+  const list = document.getElementById('employee-list');
+  list.innerHTML = '';
+  if (employees.length === 0) {
+    list.innerHTML = 'No employees found.';
+    return;
+  }
 
-        employees.forEach(employee => {
-          const row = document.createElement('tr');
-          row.innerHTML = `
-            <td>${employee.id}</td>
-            <td>${employee.name}</td>
-            <td>${employee.email}</td>
-            <td>${employee.position}</td>
-            <td>${employee.phone}</td>
-            <td>
-              <button onclick="editEmployee(${employee.id})">Edit</button>
-              <button onclick="deleteEmployee(${employee.id})">Delete</button>
-            </td>
-          `;
-          tableBody.appendChild(row);
-        });
-      } catch (error) {
-        console.error('Error fetching employees:', error);
-      }
-    }
+  const table = document.createElement('table');
+  table.innerHTML = `
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Position</th>
+      <th>Phone</th>
+    </tr>
+  `;
+  employees.forEach((employee) => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${employee.id}</td>
+      <td>${employee.name}</td>
+      <td>${employee.email}</td>
+      <td>${employee.position}</td>
+      <td>${employee.phone}</td>
+    `;
+    table.appendChild(row);
+  });
+  list.appendChild(table);
+}
 
-    // new or edited employee
-    async function saveEmployee() {
-      const id = document.getElementById('employee-id').value;
-      const name = document.getElementById('employee-name').value;
-      const email = document.getElementById('employee-email').value;
-      const position = document.getElementById('employee-position').value;
-      const phone = document.getElementById('employee-phone').value;
+// Create Employee
+document.getElementById('createEmployee').addEventListener('click', async () => {
+  const name = document.getElementById('employee_name').value;
+  const email = document.getElementById('employee_email').value;
+  const position = document.getElementById('employee_position').value;
+  const phone = document.getElementById('employee_phone').value;
 
-      if (!name || !email || !position || !phone) {
-        alert('Please fill out all fields.');
-        return;
-      }
+  try {
+    const response = await fetch(`${EMPLOYEE_API_URL}/employees`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, position, phone }),
+    });
+    const result = await response.json();
+    alert(result.message || 'Employee created successfully!');
+  } catch (error) {
+    console.error('Error creating employee:', error);
+  }
+});
 
-      const employee = { name, email, position, phone };
-      const method = id ? 'PUT' : 'POST';
-      const url = id ? `${apiBaseUrl}/${id}` : apiBaseUrl;
+// Update Employee
+document.getElementById('updateEmployee').addEventListener('click', async () => {
+  const id = document.getElementById('update_employee_id').value;
+  const name = document.getElementById('new_employee_name').value;
+  const email = document.getElementById('new_employee_email').value;
+  const position = document.getElementById('new_employee_position').value;
+  const phone = document.getElementById('new_employee_phone').value;
 
-      try {
-        const response = await fetch(url, {
-          method,
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(employee)
-        });
+  try {
+    const response = await fetch(`${EMPLOYEE_API_URL}/employees/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, position, phone }),
+    });
+    const result = await response.json();
+    alert(result.message || 'Employee updated successfully!');
+  } catch (error) {
+    console.error('Error updating employee:', error);
+  }
+});
 
-        const result = await response.json();
+// Delete Employee
+document.getElementById('deleteEmployee').addEventListener('click', async () => {
+  const id = document.getElementById('delete_employee_id').value;
 
-        if (response.ok) {
-          alert(result.message || 'Employee saved successfully.');
-          resetForm();
-          fetchEmployees();
-        } else {
-          alert(result.error || 'Failed to save employee.');
-        }
-      } catch (error) {
-        console.error('Error saving employee:', error);
-      }
-    }
-
-    // Edit an employee
-    async function editEmployee(id) {
-      try {
-        const response = await fetch(`${apiBaseUrl}/${id}`);
-        const employee = await response.json();
-
-        document.getElementById('employee-id').value = employee.id;
-        document.getElementById('employee-name').value = employee.name;
-        document.getElementById('employee-email').value = employee.email;
-        document.getElementById('employee-position').value = employee.position;
-        document.getElementById('employee-phone').value = employee.phone;
-
-        document.getElementById('form-title').textContent = 'Edit Employee';
-      } catch (error) {
-        console.error('Error fetching employee:', error);
-      }
-    }
-
-    // Delete an employee
-    async function deleteEmployee(id) {
-      if (!confirm('Are you sure you want to delete this employee?')) return;
-
-      try {
-        const response = await fetch(`${apiBaseUrl}/${id}`, { method: 'DELETE' });
-        const result = await response.json();
-
-        if (response.ok) {
-          alert(result.message || 'Employee deleted successfully.');
-          fetchEmployees();
-        } else {
-          alert(result.error || 'Failed to delete employee.');
-        }
-      } catch (error) {
-        console.error('Error deleting employee:', error);
-      }
-    }
-
-    // Reset the form
-    function resetForm() {
-      document.getElementById('employee-id').value = '';
-      document.getElementById('employee-name').value = '';
-      document.getElementById('employee-email').value = '';
-      document.getElementById('employee-position').value = '';
-      document.getElementById('employee-phone').value = '';
-      document.getElementById('form-title').textContent = 'Add Employee';
-    }
-
-    // Initial fetch of employees
-    fetchEmployees();
+  try {
+    const response = await fetch(`${EMPLOYEE_API_URL}/employees/${id}`, { method: 'DELETE' });
+    const result = await response.json();
+    alert(result.message || 'Employee deleted successfully!');
+  } catch (error) {
+    console.error('Error deleting employee:', error);
+  }
+});
