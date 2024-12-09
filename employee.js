@@ -34,7 +34,7 @@ function displayEmployees(employees) {
   employees.forEach((employee) => {
     const row = document.createElement('tr');
     row.innerHTML = `
-      <td>${employee.id}</td>
+      <td>${employee.employee_id}</td>
       <td>${employee.name}</td>
       <td>${employee.email}</td>
       <td>${employee.position}</td>
@@ -65,13 +65,20 @@ document.getElementById('createEmployee').addEventListener('click', async () => 
   }
 });
 
-// Update Employee
+//update
+
 document.getElementById('updateEmployee').addEventListener('click', async () => {
-  const id = document.getElementById('update_employee_id').value;
-  const name = document.getElementById('new_employee_name').value;
-  const email = document.getElementById('new_employee_email').value;
-  const position = document.getElementById('new_employee_position').value;
-  const phone = document.getElementById('new_employee_phone').value;
+  const id = document.getElementById('update_employee_id').value.trim();
+  const name = document.getElementById('new_employee_name').value.trim();
+  const email = document.getElementById('new_employee_email').value.trim();
+  const position = document.getElementById('new_employee_position').value.trim();
+  const phone = document.getElementById('new_employee_phone').value.trim();
+
+  // Validate inputs
+  if (!id || !name || !email || !position || !phone) {
+    alert('Please fill out all fields before updating the employee.');
+    return;
+  }
 
   try {
     const response = await fetch(`${EMPLOYEE_API_URL}/employees/${id}`, {
@@ -79,12 +86,20 @@ document.getElementById('updateEmployee').addEventListener('click', async () => 
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, position, phone }),
     });
+
     const result = await response.json();
-    alert(result.message || 'Employee updated successfully!');
+
+    if (response.ok) {
+      alert(result.message || 'Employee updated successfully!');
+    } else {
+      alert(result.error || 'Failed to update employee. Please try again.');
+    }
   } catch (error) {
     console.error('Error updating employee:', error);
+    alert('An error occurred while updating the employee. Please try again later.');
   }
 });
+
 
 // Delete Employee
 document.getElementById('deleteEmployee').addEventListener('click', async () => {
