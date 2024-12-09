@@ -103,13 +103,15 @@ document.getElementById('updateEmployee').addEventListener('click', async () => 
 
 // Delete Employee
 document.getElementById('deleteEmployee').addEventListener('click', async () => {
-  const id = document.getElementById('delete_employee_id').value;
+  const name = document.getElementById('delete_employee_name').value; 
 
   try {
-    const response = await fetch(`${EMPLOYEE_API_URL}/employees/${id}`, { method: 'DELETE' });
+    const response = await fetch(`${EMPLOYEE_API_URL}/employees/${name}`, { method: 'DELETE' });
     const result = await response.json();
     alert(result.message || 'Employee deleted successfully!');
   } catch (error) {
     console.error('Error deleting employee:', error);
+    alert('Error deleting employee');
   }
 });
+
