@@ -227,30 +227,45 @@ app.post('/employees', (req, res) => {
   });
 });
 
-//put employee
+//update employee
 
 
-app.put('/employees/:id', (req, res) => {
-  const employeeId = req.params.id; 
+app.put('/employees/:name', (req, res) => {
+  const employeeName = req.params.name; 
   const { name, email, position, phone } = req.body; 
 
-  
+ 
   if (!name && !email && !position && !phone) {
-    return res.status(400).json({ error: 'Please provide at least one field to update (name, email, position, or phone)' });
+    return res.status(400).json({
+      error: 'Please provide at least one field to update (name, email, position, or phone)',
+    });
   }
 
-
-  let query = 'UPDATE Employees SET ';
+ 
   const updates = [];
-  if (name) updates.push(`name = '${name}'`);
-  if (email) updates.push(`email = '${email}'`);
-  if (position) updates.push(`position = '${position}'`);
-  if (phone) updates.push(`phone = '${phone}'`);
-  query += updates.join(', '); 
-  query += ' WHERE id = ?'; 
+  const params = [];
+  if (name) {
+    updates.push('name = ?');
+    params.push(name);
+  }
+  if (email) {
+    updates.push('email = ?');
+    params.push(email);
+  }
+  if (position) {
+    updates.push('position = ?');
+    params.push(position);
+  }
+  if (phone) {
+    updates.push('phone = ?');
+    params.push(phone);
+  }
 
+  const query = `UPDATE Employees SET ${updates.join(', ')} WHERE name = ?`;
+  params.push(employeeName); 
 
-  connection.query(query, [employeeId], (err, results) => {
+ 
+  connection.query(query, params, (err, results) => {
     if (err) {
       console.error('Error executing query:', err.message);
       return res.status(500).json({ error: 'Internal server error' });
@@ -258,11 +273,11 @@ app.put('/employees/:id', (req, res) => {
 
    
     if (results.affectedRows === 0) {
-      return res.status(404).json({ error: `No employee found with ID ${employeeId}` });
+      return res.status(404).json({ error: `No employee found with name "${employeeName}"` });
     }
 
-  
-    res.status(200).json({ message: `Employee with ID ${employeeId} updated successfully` });
+    
+    res.status(200).json({ message: `Employee with name "${employeeName}" updated successfully` });
   });
 });
 
