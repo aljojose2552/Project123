@@ -203,7 +203,7 @@ app.get('/employees/:id', (req, res) => {
   });
 });
 
-//post employee
+//add employee
 
 app.post('/employees', (req, res) => {
   const { name, email, position, phone } = req.body;
@@ -286,13 +286,13 @@ app.put('/employees/:name', (req, res) => {
 //delete employee
 
 
-app.delete('/employees/:id', (req, res) => {
-  const employeeId = req.params.id; 
+app.delete('/employees/:name', (req, res) => {
+  const employeeName = req.params.name; 
 
 
-  const query = 'DELETE FROM Employees WHERE id = ?';
+  const query = 'DELETE FROM Employees WHERE name = ?';
 
-  connection.query(query, [employeeId], (err, results) => {
+  connection.query(query, [employeeName], (err, results) => {
     if (err) {
       console.error('Error executing query:', err.message);
       return res.status(500).json({ error: 'Internal server error' });
@@ -300,11 +300,11 @@ app.delete('/employees/:id', (req, res) => {
 
    
     if (results.affectedRows === 0) {
-      return res.status(404).json({ error: `No employee found with ID ${employeeId}` });
+      return res.status(404).json({ error: `No employee found with Name ${employeeName}` });
     }
 
     
-    res.status(200).json({ message: `Employee with ID ${employeeId} deleted successfully` });
+    res.status(200).json({ message: `Employee with name ${employeeName} deleted successfully` });
   });
 });
 
