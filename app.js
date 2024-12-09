@@ -170,6 +170,21 @@ app.delete('/shifts/:name', (req, res) => {
 
 //employees
 
+//fetch all employee
+
+app.get('/employees', (req, res) => {
+  connection.query('SELECT * FROM employees', (err, results) => {
+    if (err) {
+      console.error('Error executing query:', err.message);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+
+   
+    res.status(200).json(results);
+  });
+});
+
+
 app.get('/employees/:id', (req, res) => {
   const employeeId = req.params.id;
 
@@ -277,11 +292,6 @@ app.delete('/employees/:id', (req, res) => {
     res.status(200).json({ message: `Employee with ID ${employeeId} deleted successfully` });
   });
 });
-
-
-
-
-
 
 const PORT = 3000;
 app.listen(PORT, () => {
