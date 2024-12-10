@@ -205,7 +205,7 @@ app.get('/employees/:id', (req, res) => {
 
 //search employee
 
-app.get('/employees/search', (req, res) => {
+/*app.get('/employees/search', (req, res) => {
   const { name } = req.query; 
 
   console.log('Query Params:', { name });
@@ -233,7 +233,7 @@ app.get('/employees/search', (req, res) => {
 
     res.status(200).json(results);
   });
-});
+});*/
 
 
 //add employee
