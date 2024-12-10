@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shift Management System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <button src="index.html">Back</button>
+
+        <!-- Response Message -->
+        <div id="response" class="response"></div>
+
+
+<div class="container">
+    <h1>Employee Management System</h1>
+
+    <!-- Fetch Employees -->
+    <section>
+      <h2>All Employees</h2>
+      <button id="fetchEmployees">Fetch All Employees</button>
+      <div id="employee-list"></div>
+    </section>
+
+    <!-- Search Employees -->
+    <section>
+      <h2>Search Employees</h2>
+      <input type="text" id="search_employee_name" placeholder="Search by Employee Name">
+      <button id="searchEmployees">Search</button>
+    </section>
+
+    <!-- Create New Employee -->
+    <section>
+      <h2>Create New Employee</h2>
+      <input type="text" id="employee_name" placeholder="Employee Name">
+      <input type="email" id="employee_email" placeholder="Email">
+      <input type="text" id="employee_position" placeholder="Position">
+      <input type="text" id="employee_phone" placeholder="Phone">
+      <button id="createEmployee">Create Employee</button>
+    </section>
+
+    <!-- Update Employee -->
+    <section>
+      <h2>Update Employee</h2>
+      <input type="text" id="update_employee_id" placeholder="Employee ID to Update">
+      <input type="text" id="new_employee_name" placeholder="New Employee Name">
+      <input type="email" id="new_employee_email" placeholder="New Email">
+      <input type="text" id="new_employee_position" placeholder="New Position">
+      <input type="text" id="new_employee_phone" placeholder="New Phone">
+      <button id="updateEmployee">Update Employee</button>
+    </section>
+
+    <!-- Delete Employee -->
+    <section>
+      <h2>Delete Employee</h2>
+      <input type="text" id="delete_employee_name" placeholder="Employee Name to Delete">
+      <button id="deleteEmployee">Delete Employee</button>
+    </section>
+    
+  </div>
+  <script src="employee.js"></script>
+</body>
+</html>
