@@ -341,6 +341,37 @@ app.delete('/employees/:name', (req, res) => {
   });
 });
 
+
+
+
+// Assign shift
+app.post('/employeeshifts', (req, res) => {
+  const { employeeName, position, date, shiftName, startTime, endTime } = req.body;
+
+  // Insert this data into the 'EmployeeShifts' table
+  const query = 'INSERT INTO EmployeeShifts (employeeName, position, date, shiftName, startTime, endTime) VALUES (?, ?, ?, ?, ?, ?)';
+  connection.query(query, [employeeName, position, date, shiftName, startTime, endTime], (err, results) => {
+    if (err) {
+      console.error('Error assigning shift:', err.message);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+    res.status(201).json({
+      message: 'Shift assigned successfully',
+      assignment_id: results.insertId
+    });
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
