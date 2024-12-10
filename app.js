@@ -203,6 +203,39 @@ app.get('/employees/:id', (req, res) => {
   });
 });
 
+//search employee
+
+app.get('/employees/search', (req, res) => {
+  const { name } = req.query; 
+
+  console.log('Query Params:', { name });
+
+  let query = 'SELECT * FROM Employees WHERE 1=1';
+  const params = [];
+
+  if (name) {
+    query += ' AND name LIKE ?';
+    params.push(`%${name}%`); 
+  }
+
+  console.log('SQL Query:', query);
+  console.log('Query Params:', params);
+
+  connection.query(query, params, (err, results) => {
+    if (err) {
+      console.error('Error executing query:', err.message);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ message: 'No employees found matching the criteria.' });
+    }
+
+    res.status(200).json(results);
+  });
+});
+
+
 //add employee
 
 app.post('/employees', (req, res) => {
