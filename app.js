@@ -1,3 +1,5 @@
+require('dotenv').config(); 
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
@@ -5,13 +7,13 @@ const cors = require('cors');
 
 const app = express();
 app.use(cors());
-
+app.use(bodyParser.json());
 
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'Password@123',
-  database: 'shiftmanagement' 
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
 });
 
 
@@ -366,13 +368,9 @@ app.post('/employeeshifts', (req, res) => {
 
 
 
-
-
-
-
-
-
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+module.exports = { app, connection };
+
