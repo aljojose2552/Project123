@@ -100,15 +100,28 @@ The user can assign a shift to an employee by sending a POST request to /employe
 
 5. Testing and Validation
 
-Postman API Testing
-Postman is used to manually test all API endpoints.
-Test cases are written for each API route to check if the requests are correctly handled, the data is returned as expected, and the status codes are correct.
-For example, when creating a new shift, the POST request to /shifts should return a 201 status with a success message. If any required fields are missing, it should return a 400 status.
+Postman is used for manual API testing to verify that the backend endpoints are functioning correctly. The following test cases are executed:
+
+Test Cases for Shift Management
+Create Shift (POST /shifts):
+
+Valid Request:
+Send a POST request with shift_name, start_time, and end_time as body parameters.
+Expected response: Status code 201 and success message (e.g., "Shift created successfully").
+Invalid Request (Missing Fields):
+Send a POST request with missing fields (e.g., shift_name).
+Expected response: Status code 400 and error message (e.g., "Please provide shift_name, start_time, and end_time").
+Get All Shifts (GET /shifts):
+
+Valid Request:
+Send a GET request to /shifts.
+Expected response: Status code 200 and an array of shifts.
+Search Shifts (GET /shifts/search):
 
 Jest Unit Testing
 Jest is used to write automated unit tests for backend functionality.
 Tests are written to check if the server responds correctly to valid and invalid inputs.
-For example, tests are written to ensure that the server correctly creates, updates, and deletes shifts and employees, and that the correct error messages are shown for invalid operations.
+tests are written to ensure that the server correctly deletes shifts, and that the correct error messages are shown for invalid operations.
 
 6. Frontend Implementation
 
