@@ -1,15 +1,11 @@
 # Project123
 
-Shift-Master
+#Shift-Master
 
 
-db.js for database connection and .env for db connection settings
 
-created database named shiftmanagement and add table shifts
-stared shift  module with create(POST), read(GET), DELETE
 
-started employees module with create(POST)
-ProjectRepository
+#ProjectRepository
 created HTML file created base javascript file installed all the packages required json installed packages for node, mysql2 created a app.js file and express server is correctly set up and listens on port 3000 made port:3000 public created a mysql.createConnection instance for each endpoint login -> mysql -u root -p->password created table 'shiftmanagement' in mysql Backend API /shift (GET): Fetches all shifts from the shifts table /shifts (POST): Validates input and inserts a new shift into the shifts table in postman GET /search: Retrieves shifts based on search filters. DELETE /shift/:name: Deletes a shift by name.
 
 
