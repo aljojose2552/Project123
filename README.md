@@ -10,7 +10,8 @@ stared shift  module with create(POST), read(GET), DELETE
 
 started employees module with create(POST)
 
-
+Technology Stack
+Frontend -HTML -Javascript --HTML: The form for adding shifts and the container for displaying shifts. --JavaScript: fetchshift(): Fetches and displays all shift. searchshift(): Filters shift based on user input. addshift(): Adds a shift to the backend. deleteshift(name): Deletes a shift from the backend. Backend -Node.js Tool -Visual Studio Code (IDE) -Postman (API testing) -GitHub -MYSQL Workbench
 
 
 
