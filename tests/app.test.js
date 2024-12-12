@@ -21,34 +21,15 @@ beforeAll(() => {
 
 beforeEach(() => {
   originalConsoleError = console.error;
-  console.error = jest.fn(); // Suppress error logs during tests
+  console.error = jest.fn(); 
 });
 
 afterEach(() => {
   jest.resetAllMocks();
-  console.error = originalConsoleError; // Restore original console.error
+  console.error = originalConsoleError; 
 });
 
-/*afterAll(async () => {
-  
-  if (server) {
-    await new Promise(resolve => server.close(resolve));
-    console.log('Test server closed');
-  }
-
-  if (connection && connection.end) {
-    try {
-      await new Promise((resolve, reject) =>
-        connection.end(err => (err ? reject(err) : resolve()))
-      );
-      console.log('Database connection closed');
-    } catch (err) {
-      console.error('Error closing database connection:', err.message);
-    }
-  }
-});*/
-
-jest.setTimeout(30000); // Set test timeout to 30 seconds
+jest.setTimeout(30000); 
 
 describe('Shift Management API', () => {
   describe('DELETE /shifts/:name', () => {
