@@ -67,6 +67,9 @@ document.getElementById('createShift').addEventListener('click', async () => {
 
     if (response.ok) {
       showMessage('Shift created successfully');
+      document.getElementById('shift_name').value = '';
+      document.getElementById('start_time').value = '';
+      document.getElementById('end_time').value = '';
     } else {
       showMessage(data.error || 'Failed to create shift', true);
     }
@@ -98,6 +101,11 @@ document.getElementById('updateShift').addEventListener('click', async () => {
 
     if (response.ok) {
       showMessage(`Shift "${currentShiftName}" updated successfully`);
+      document.getElementById('update_shift_name').value = '';
+      document.getElementById('new_shift_name').value = '';
+      document.getElementById('new_start_time').value = '';
+      document.getElementById('new_end_time').value = '';
+      
     } else {
       showMessage(data.error || `Failed to update shift "${currentShiftName}"`, true);
     }
@@ -120,6 +128,7 @@ document.getElementById('deleteShift').addEventListener('click', async () => {
 
     if (response.ok) {
       showMessage(`Shift "${shiftName}" deleted successfully`);
+      document.getElementById('delete_shift_name').value = '';
     } else {
       showMessage(data.error || `Failed to delete shift "${shiftName}"`, true);
     }
