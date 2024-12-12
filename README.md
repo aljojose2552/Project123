@@ -1,5 +1,17 @@
 # Project123
 
+Assignment Cover Sheet
+
+Student  Name and Number as per student card: Aljo Jose (20033528)
+
+Programme: Msc Information with computing
+
+Lecturer Name: Paul Laird
+
+Module/Subject Title: Programming for Information Systems
+
+Assignment Title: Shift Master
+
 #Shift-Master
 
 
